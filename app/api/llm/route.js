@@ -1,4 +1,4 @@
-import { generateAdventure } from '../../../lib/llmService';
+import { generateAdventure } from '../../../lib/gemini/service';
 
 export async function POST(request) {
   try {

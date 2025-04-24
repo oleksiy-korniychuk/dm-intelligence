@@ -73,7 +73,7 @@ export default function AdventureGenerator() {
         <p className="mt-4 text-red-600 text-center">{error}</p>
       )}
       {adventure && (
-        <div className="mt-6 p-4 border rounded-lg font-mono whitespace-pre-wrap">
+        <div className="mt-6 p-4 font-mono whitespace-pre-wrap">
             <pre className="break-words">
                 {JSON.stringify(JSON.parse(adventure), null, 2)}
             </pre>
