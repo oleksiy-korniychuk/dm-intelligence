@@ -18,9 +18,10 @@ npm run dev
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
 ## Stack
-Frontend: Next.js
-Backend: Supabase
+Frontend: Next.js 15 with AppRouter
+Backend: Supabase with pgvector extension
 
-## Idea Board
-- look into using generated images for capturing important information for recall. This may help lead to more consistent descriptions of character appearance, locations (better staying on message with vibe). But need to consider token size vs a detailed description. Can compression be used on the image or will this degrage recognition. May not work for a model that is not multimodal.
-
+## Hints for Copilot
+- `DATABASE_SCHEMA.md` contains a definition of the supabase schema
+- All pages and routes except `/login` are hidden behind a successful authentication with supabase. This is enforced ./middleware.js
+- Use `@/<path to resource>` notation for imports to keep them uniform and clean (ex. `@/components/Header`)

@@ -1,4 +1,4 @@
-import AdventureInput from '../components/AdventureInput';
+import AdventureInput from '@/components/AdventureInput';
 
 export default function Home() {
   return (

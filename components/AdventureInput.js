@@ -1,10 +1,11 @@
 'use client';
 
+import AdventureDisplay from '@/components/AdventureDisplay';
 import { useState } from 'react';
 
 export default function AdventureGenerator() {
   const [userInput, setUserInput] = useState('');
-  const [adventure, setAdventure] = useState('');
+  const [adventure, setAdventure] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -30,7 +31,6 @@ export default function AdventureGenerator() {
         if (!response.ok) {
             throw new Error(data.error || 'Failed to generate adventure.');
         }
-        console.log(data.response);
         setAdventure(data.response);
     } catch (err) {
       setError(err.message);
@@ -47,7 +47,7 @@ export default function AdventureGenerator() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">
         Adventure Generator
       </h1>
@@ -67,18 +67,16 @@ export default function AdventureGenerator() {
         onClick={handleGenerate}
         disabled={isLoading}
       >
-        {isLoading ? 'Generating...' : 'Go'}
+        {isLoading ? 'Generating...' : 'Generate Adventure'}
       </button>
       {error && (
         <p className="mt-4 text-red-600 text-center">{error}</p>
       )}
       {adventure && (
-        <div className="mt-6 p-4 font-mono whitespace-pre-wrap">
-            <pre className="break-words">
-                {JSON.stringify(JSON.parse(adventure), null, 2)}
-            </pre>
+        <div className="mt-8">
+          <AdventureDisplay adventure={adventure} />
         </div>
       )}
     </div>
   );
-};
+}
