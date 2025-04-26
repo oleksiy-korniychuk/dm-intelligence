@@ -1,4 +1,4 @@
-import { generateAdventure } from '@/lib/gemini/service';
+import { generateAdventure } from '@/lib/gemini/adventureService';
 import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request) {

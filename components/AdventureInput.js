@@ -19,7 +19,7 @@ export default function AdventureGenerator() {
     setError('');
 
     try {
-        const response = await fetch('/api/llm', {
+        const response = await fetch('/api/new-adventure', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
