@@ -26,8 +26,8 @@ export default function AdventureDisplay({ adventure }) {
       </div>
 
       <section className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Setting</h2>
-        <p>{adventure.setting}</p>
+        <h2 className="text-xl font-semibold mb-2">Synopsis</h2>
+        <p>{adventure.synopsis}</p>
       </section>
 
       <section className="mb-6">
@@ -36,40 +36,35 @@ export default function AdventureDisplay({ adventure }) {
       </section>
 
       <section className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Adventure Hook</h2>
+        <h2 className="text-xl font-semibold mb-2">Hook</h2>
         <p>{adventure.hook}</p>
       </section>
 
       <section className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Plot</h2>
         {adventure.plot.map((act, actIndex) => (
-          <div key={actIndex} className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">{act.act}</h3>
-            <p className="mb-4">{act.description}</p>
+          <div key={actIndex} className="mb-6 border-l-4 border-gray-300 dark:border-gray-700 pl-4">
+            <h2 className="text-lg font-semibold mb-2">{act.name}</h2>
+            <p className="mb-4">{act.transition}</p>
             
-            <div className="pl-4">
-              {act.locations.map((location, locIndex) => (
-                <div key={locIndex} className="mb-4">
-                  <h4 className="text-md font-semibold mb-2">{location.name}</h4>
-                  <p className="mb-2">{location.description}</p>
-                  
-                  <div className="pl-4">
-                    {location.encounters.map((encounter, encIndex) => (
-                      <div key={encIndex} className={`mb-3 p-3 rounded ${getEncounterClass(encounter.type)}`}>
-                        <div className="text-sm font-medium mb-1">
-                          {encounter.type} Encounter
-                        </div>
-                        <p className="mb-2">{encounter.description}</p>
-                        <div className="text-sm">
-                          <p><strong>Mechanics:</strong> {encounter.mechanics}</p>
-                          <p><strong>Rewards:</strong> {encounter.rewards}</p>
-                        </div>
-                      </div>
-                    ))}
+            {act.scenes.map((scene, sceneIndex) => (
+              <div key={sceneIndex} className="mb-4 ml-2 border-l-2 border-gray-200 dark:border-gray-600 pl-4">
+                <h3 className="text-md font-semibold mb-2">{scene.name}</h3>
+                <p className="mb-2">{scene.overview}</p>
+                
+                {scene.encounters.map((encounter, encIndex) => (
+                  <div key={encIndex} className={`mb-3 p-3 rounded ${getEncounterClass(encounter.type)}`}>
+                    <div className="text-sm font-medium mb-1">
+                      {encounter.type} Encounter
+                    </div>
+                    <p className="mb-2">{encounter.details}</p>
+                    <div className="text-sm">
+                      <p><strong>Mechanics:</strong> {encounter.mechanics}</p>
+                      <p><strong>Reward:</strong> {encounter.reward}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ))}
           </div>
         ))}
       </section>
