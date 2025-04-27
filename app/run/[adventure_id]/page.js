@@ -10,7 +10,18 @@ export default function RunAdventurePage() {
     const [playerMessage, setPlayerMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const chatEndRef = useRef(null);
+    const inputRef = useRef(null);
     const [lastSyncedAt, setLastSyncedAt] = useState(null);
+
+    useEffect(() => {
+        const focusInput = () => {
+            if (!isLoading) {
+                inputRef.current?.focus();
+            }
+        };
+
+        focusInput();
+    }, [isLoading]);
     
     // Initial load
     useEffect(() => {
@@ -140,6 +151,7 @@ export default function RunAdventurePage() {
             </div>
             <form onSubmit={handleSubmit} className="flex pb-4">
                 <input
+                    ref={inputRef}
                     type="text"
                     value={playerMessage}
                     onChange={(e) => setPlayerMessage(e.target.value)}
