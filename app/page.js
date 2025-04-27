@@ -6,8 +6,8 @@ export default function Home() {
     <div>
       <AdventureInput />
       <div className="mt-4 text-center">
-        <Link href="/run/1c793443-fac3-41bc-9ee0-857e5fb51f6d" className="text-blue-500 hover:underline">
-          Start Adventure (not yet dynamic)
+        <Link href="/adventures" className="text-blue-500 hover:underline">
+          Existing Adventures
         </Link>
       </div>
     </div>
