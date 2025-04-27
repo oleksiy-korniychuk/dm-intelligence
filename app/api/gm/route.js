@@ -42,7 +42,7 @@ export async function POST(request) {
             const newMessages = dbHistory.map(msg => ({
                 id: msg.id,
                 role: msg.role,
-                message: msg.content.message,
+                message: msg.content,
                 created_at: msg.created_at
             }));
             const lastMessage = dbHistory[dbHistory.length - 1];
@@ -124,7 +124,7 @@ export async function POST(request) {
             newMessages = messages.map(msg => ({
                 id: msg.id,
                 role: msg.role,
-                message: msg.content.message,
+                content: msg.content,
                 created_at: msg.created_at
             }));
         }

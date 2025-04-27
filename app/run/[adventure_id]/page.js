@@ -140,10 +140,10 @@ export default function RunAdventurePage() {
         <div className="flex flex-col h-[calc(100vh-8rem)] max-w-2xl mx-auto px-4">
             <h1 className="text-2xl font-bold mb-4 text-center pt-4">Adventure Awaits!</h1>
             <div className="flex-grow overflow-y-auto mb-4 p-4 bg-gray-800 rounded shadow">
-                {history.map((entry, index) => (
-                    <div key={index} className={`mb-3 ${entry.role === 'user' ? 'text-right' : 'text-left'}`}>
+                {history.filter(entry => !entry.message?.type).map((entry, index) => (
+                    <div key={index} className={"mb-3 text-left"}>
                         <span className={`inline-block p-2 rounded shadow-sm ${entry.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-100'}`}>
-                            <strong>{entry.role === 'user' ? 'You' : 'GM'}:</strong> {entry.message}
+                            <strong>{entry.role === 'user' ? 'You' : 'GM'}:</strong> {entry.message.message}
                         </span>
                     </div>
                 ))}
