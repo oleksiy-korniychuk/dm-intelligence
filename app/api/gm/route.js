@@ -10,10 +10,7 @@ export async function POST(request) {
         }
         const supabase = await createClient();
         // Initial message will eventually be dynamically generated based on the player character
-        const initialMessage = {
-            message: "Hello, GM! Name's Gerard. A soldier by trade, a fighter by heart. I stand ready with sword and shield to protect my companions, and my wolf Fang's always by my side to watch my back. Please set the stage and then let me know where I am and what I can see so that we can start playing",
-            type: "initial"
-        };
+        const initialMessage = "Hello, GM! Name's Gerard and I am a level 3 fighter. I stand ready with sword and shield to protect my companions, and my wolf Fang's always by my side to watch my back. Please set the stage for this adventure and then let me know where I am and what I can see so that we can start playing";
 
         // Get the current user
         const { data: { user }, error: userError } = await supabase.auth.getUser();
@@ -25,6 +22,7 @@ export async function POST(request) {
             .select('adventure')
             .eq('id', adventureId)
             .single();
+
         if (adventureError || !adventureData) {
             throw new Error("Adventure not found or you don't have access");
         }
@@ -42,7 +40,7 @@ export async function POST(request) {
             const newMessages = dbHistory.map(msg => ({
                 id: msg.id,
                 role: msg.role,
-                message: msg.content,
+                content: msg.content,
                 created_at: msg.created_at
             }));
             const lastMessage = dbHistory[dbHistory.length - 1];
@@ -50,8 +48,8 @@ export async function POST(request) {
                 // Return the full history to the client
                 if (!playerMessage) {
                     return new Response(JSON.stringify({
-                        response: '',
-                        gmMessageId: lastMessage.id,
+                        gmMessage: '',
+                        gmMessageId: null,
                         newMessages,
                         latestTimestamp: lastMessage.created_at
                     }), { status: 200 });
@@ -61,30 +59,24 @@ export async function POST(request) {
             }
             else if (lastMessage.role === 'user') {
                 // We need to have the GM respond and return the full history to the client
-                messageForGm = { message: "" };
+                messageForGm = { message: '' };
             }
         } else {
             // If there's no history, we need to start a new conversation
-            messageForGm = initialMessage;
+            messageForGm = { message: initialMessage, type: 'initial' };
+        }
 
-            const { data: userMessage, error: insertError } = await supabase
-                .from('chat_messages')
-                .insert({
-                    user_id: user.id,
-                    adventure_id: adventureId,
-                    role: 'user',
-                    content: messageForGm
-                })
-                .select('id, created_at')
-                .single();
+        // If the messageForGm is not empty, we need to add it to the database
+        if (messageForGm.message) {
+            const { error: insertError } = await supabase
+                    .from('chat_messages')
+                    .insert({
+                        user_id: user.id,
+                        adventure_id: adventureId,
+                        role: 'user',
+                        content: messageForGm
+                    });
             if (insertError) throw insertError;
-
-            dbHistory.push({
-                id: userMessage.id,
-                role: 'user',
-                content: messageForGm,
-                created_at: userMessage.created_at
-            });
         }
 
         // Format history for GM response
@@ -106,7 +98,8 @@ export async function POST(request) {
                 user_id: user.id,
                 adventure_id: adventureId,
                 role: 'model',
-                content: { message: response }
+                content: { message: response },
+                metadata: response.usageMetadata
             })
             .select('id, created_at')
             .single();
@@ -130,7 +123,7 @@ export async function POST(request) {
         }
         
         return new Response(JSON.stringify({
-            response,
+            gmMessage: response,
             gmMessageId: gmMessage.id,
             newMessages,
             latestTimestamp: gmMessage.created_at

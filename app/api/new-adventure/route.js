@@ -17,20 +17,22 @@ export async function POST(request) {
         const { data: { user } } = await supabase.auth.getUser();
         
         // Store the adventure in the database
-        const { error: insertError } = await supabase
+        const { data: insertedAdventure, error: insertError } = await supabase
         .from('adventures')
         .insert({
             user_id: user.id,
             user_prompt: prompt,
             adventure: response
-        });
+        })
+        .select('id')
+        .single();
 
         if (insertError) {
             console.error('Error inserting adventure:', insertError);
             throw new Error('Failed to save adventure');
         }
 
-        return new Response(JSON.stringify({ response }), {
+        return new Response(JSON.stringify({ outline: response, id: insertedAdventure.id }), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
         });

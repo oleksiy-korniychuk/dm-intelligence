@@ -1,6 +1,9 @@
 'use client';
+import { useRouter } from 'next/navigation';
 
-export default function AdventureDisplay({ adventure }) {
+export default function AdventureDisplay({ adventure, adventureId }) {
+  const router = useRouter();
+
   if (!adventure) return null;
 
   const getEncounterClass = (type) => {
@@ -87,6 +90,15 @@ export default function AdventureDisplay({ adventure }) {
         <h2 className="text-xl font-semibold mb-2">Conclusion</h2>
         <p>{adventure.conclusion}</p>
       </section>
+
+      <div className="mt-4 text-center">
+        <button
+          onClick={() => router.push(`/run/${adventureId}`)}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+        >
+          Run Adventure
+        </button>
+      </div>
     </div>
   );
 }

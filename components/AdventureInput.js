@@ -6,6 +6,7 @@ import { useState } from 'react';
 export default function AdventureGenerator() {
   const [userInput, setUserInput] = useState('');
   const [adventure, setAdventure] = useState(null);
+  const [adventureId, setAdventureId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -31,7 +32,8 @@ export default function AdventureGenerator() {
         if (!response.ok) {
             throw new Error(data.error || 'Failed to generate adventure.');
         }
-        setAdventure(data.response);
+        setAdventure(data.outline);
+        setAdventureId(data.id);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -74,7 +76,7 @@ export default function AdventureGenerator() {
       )}
       {adventure && (
         <div className="mt-8">
-          <AdventureDisplay adventure={adventure} />
+          <AdventureDisplay adventure={adventure} adventureId={adventureId} />
         </div>
       )}
     </div>
