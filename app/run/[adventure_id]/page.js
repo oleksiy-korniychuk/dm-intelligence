@@ -147,6 +147,13 @@ export default function RunAdventurePage() {
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [history]);
+
+    // Helper function to adjust textarea height and scrollbar visibility
+    function adjustTextareaHeight(textarea) {
+        textarea.style.height = 'auto'; // Reset height to auto to calculate new height
+        textarea.style.height = `${Math.min(textarea.scrollHeight, 96)}px`; // Set height dynamically, max 4 lines (96px)
+        textarea.style.overflowY = textarea.scrollHeight > textarea.offsetHeight ? 'auto' : 'hidden'; // Show scrollbar only if content exceeds visible area
+    }
     
     return (
         <div className="flex flex-col h-[calc(100vh-8rem)] max-w-2xl mx-auto px-4">
@@ -162,14 +169,18 @@ export default function RunAdventurePage() {
                 <div ref={chatEndRef} />
             </div>
             <form onSubmit={handleSubmit} className="flex pb-4">
-                <input
+                <textarea
                     ref={inputRef}
-                    type="text"
                     value={playerMessage}
-                    onChange={(e) => setPlayerMessage(e.target.value)}
+                    onChange={(e) => {
+                        setPlayerMessage(e.target.value);
+                        adjustTextareaHeight(e.target);
+                    }}
                     placeholder={isLoading ? "GM is thinking..." : "What do you do next?"}
-                    className={`flex-grow p-2 border rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500 ${isLoading ? 'bg-gray-100' : ''}`}
+                    className={`flex-grow p-2 border rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${isLoading ? 'bg-gray-100' : ''}`}
                     disabled={isLoading}
+                    rows={1}
+                    style={{ maxHeight: '6rem' }}
                 />
                 <button
                     type="submit"
