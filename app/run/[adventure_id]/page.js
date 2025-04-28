@@ -12,6 +12,9 @@ export default function RunAdventurePage() {
     const chatEndRef = useRef(null);
     const inputRef = useRef(null);
     const [lastSyncedAt, setLastSyncedAt] = useState(null);
+    const [isInitialized, setIsInitialized] = useState(false);
+    // Add a ref to track if we're currently fetching initial data
+    const initialLoadingRef = useRef(false);
 
     useEffect(() => {
         const focusInput = () => {
@@ -25,7 +28,12 @@ export default function RunAdventurePage() {
     
     // Initial load
     useEffect(() => {
+        // Skip if we've already initialized or if we're already loading
+        if (isInitialized || initialLoadingRef.current) return;
+        
         async function loadInitialChat() {
+            // Mark as loading immediately using the ref
+            initialLoadingRef.current = true;
             setIsLoading(true);
             try {
                 const response = await fetch('/api/gm', {
@@ -56,17 +64,20 @@ export default function RunAdventurePage() {
                     setHistory([gmResponse]);
                     setLastSyncedAt(data.latestTimestamp);
                 }
+                // Mark as initialized after successful load
+                setIsInitialized(true);
             } catch (error) {
                 console.error('Failed to initialize chat with GM:', error);
                 const errorResponse = { role: 'model', content: { message: `Sorry, I couldn't start the adventure: ${error.message}` } };
                 setHistory([errorResponse]);
             } finally {
                 setIsLoading(false);
+                initialLoadingRef.current = false; // Reset the loading ref
             }
         }
         
         loadInitialChat();
-    }, [adventureId]);
+    }, [adventureId, isInitialized]);
     
     // Message submission with optimistic updates
     const handleSubmit = async (e) => {
