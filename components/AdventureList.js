@@ -46,7 +46,7 @@ export default function AdventureList({ adventures }) {
                     
                     {expandedId === adventure.id && (
                         <div className="border-t border-gray-200 dark:border-gray-700 p-4">
-                            <AdventureDisplay adventure={adventure.adventure} />
+                            <AdventureDisplay adventure={adventure.adventure} adventureId={adventure.id} />
                         </div>
                     )}
                 </div>
