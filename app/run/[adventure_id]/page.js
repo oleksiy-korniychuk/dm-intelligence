@@ -15,6 +15,7 @@ export default function RunAdventurePage() {
     const [isInitialized, setIsInitialized] = useState(false);
     // Add a ref to track if we're currently fetching initial data
     const initialLoadingRef = useRef(false);
+    const [adventureTitle, setAdventureTitle] = useState('');
 
     useEffect(() => {
         const focusInput = () => {
@@ -154,10 +155,26 @@ export default function RunAdventurePage() {
         textarea.style.height = `${Math.min(textarea.scrollHeight, 96)}px`; // Set height dynamically, max 4 lines (96px)
         textarea.style.overflowY = textarea.scrollHeight > textarea.offsetHeight ? 'auto' : 'hidden'; // Show scrollbar only if content exceeds visible area
     }
-    
+
+    useEffect(() => {
+        async function fetchAdventureTitle() {
+            try {
+                const response = await fetch(`/api/adventure-details/${adventureId}`);
+                if (!response.ok) throw new Error(`Failed to fetch adventure title: ${response.statusText}`);
+                const data = await response.json();
+                setAdventureTitle(data.adventure.title);
+            } catch (error) {
+                console.error('Error fetching adventure title:', error);
+                setAdventureTitle('Adventure Awaits!');
+            }
+        }
+
+        fetchAdventureTitle();
+    }, [adventureId]);
+
     return (
         <div className="flex flex-col h-[calc(100vh-8rem)] max-w-2xl mx-auto px-4">
-            <h1 className="text-2xl font-bold mb-4 text-center pt-4">Adventure Awaits!</h1>
+            <h1 className="text-2xl font-bold mb-4 text-center pt-4">{adventureTitle}</h1>
             <div className="flex-grow overflow-y-auto mb-4 p-4 bg-gray-800 rounded shadow">
                 {history.filter(entry => !entry.content?.type).map((entry, index) => (
                     <div key={index} className={"mb-3 text-left"}>
