@@ -14,7 +14,6 @@ export default function RunAdventurePage() {
     const inputRef = useRef(null);
     const [lastSyncedAt, setLastSyncedAt] = useState(null);
     const [isInitialized, setIsInitialized] = useState(false);
-    // Add a ref to track if we're currently fetching initial data
     const initialLoadingRef = useRef(false);
     const [adventureTitle, setAdventureTitle] = useState('');
 
@@ -178,6 +177,13 @@ export default function RunAdventurePage() {
         textarea.style.height = `${Math.min(textarea.scrollHeight, 96)}px`; // Set height dynamically, max 4 lines (96px)
         textarea.style.overflowY = textarea.scrollHeight > textarea.offsetHeight ? 'auto' : 'hidden'; // Show scrollbar only if content exceeds visible area
     }
+
+    // Add this effect to reset textarea height when playerMessage changes
+    useEffect(() => {
+        if (inputRef.current) {
+            adjustTextareaHeight(inputRef.current);
+        }
+    }, [playerMessage]);
 
     return (
         <div className="flex flex-col h-[calc(100vh-8rem)] max-w-2xl mx-auto px-4">
