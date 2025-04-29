@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 export default function RunAdventurePage() {
     const params = useParams();
@@ -81,8 +82,7 @@ export default function RunAdventurePage() {
     }, [adventureId, isInitialized]);
     
     // Message submission with optimistic updates
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         if (!playerMessage.trim() || isLoading) return;
         
         // Create optimistic update with temporary ID
@@ -149,13 +149,6 @@ export default function RunAdventurePage() {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [history]);
 
-    // Helper function to adjust textarea height and scrollbar visibility
-    function adjustTextareaHeight(textarea) {
-        textarea.style.height = 'auto'; // Reset height to auto to calculate new height
-        textarea.style.height = `${Math.min(textarea.scrollHeight, 96)}px`; // Set height dynamically, max 4 lines (96px)
-        textarea.style.overflowY = textarea.scrollHeight > textarea.offsetHeight ? 'auto' : 'hidden'; // Show scrollbar only if content exceeds visible area
-    }
-
     useEffect(() => {
         async function fetchAdventureTitle() {
             try {
@@ -172,6 +165,20 @@ export default function RunAdventurePage() {
         fetchAdventureTitle();
     }, [adventureId]);
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          handleSubmit();
+        }
+    };
+
+    // Helper function to adjust textarea height and scrollbar visibility
+    function adjustTextareaHeight(textarea) {
+        textarea.style.height = 'auto'; // Reset height to auto to calculate new height
+        textarea.style.height = `${Math.min(textarea.scrollHeight, 96)}px`; // Set height dynamically, max 4 lines (96px)
+        textarea.style.overflowY = textarea.scrollHeight > textarea.offsetHeight ? 'auto' : 'hidden'; // Show scrollbar only if content exceeds visible area
+    }
+
     return (
         <div className="flex flex-col h-[calc(100vh-8rem)] max-w-2xl mx-auto px-4">
             <h1 className="text-2xl font-bold mb-4 text-center pt-4">{adventureTitle}</h1>
@@ -179,7 +186,8 @@ export default function RunAdventurePage() {
                 {history.filter(entry => !entry.content?.type).map((entry, index) => (
                     <div key={index} className={"mb-3 text-left"}>
                         <span className={`inline-block p-2 rounded shadow-sm ${entry.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-100'}`}>
-                            <strong>{entry.role === 'user' ? 'You' : 'GM'}:</strong> {entry.content.message}
+                            <strong>{entry.role === 'user' ? 'You' : 'GM'}:</strong> 
+                            <ReactMarkdown>{entry.content.message}</ReactMarkdown>
                         </span>
                     </div>
                 ))}
@@ -196,6 +204,7 @@ export default function RunAdventurePage() {
                     placeholder={isLoading ? "GM is thinking..." : "What do you do next?"}
                     className={`flex-grow p-2 border rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${isLoading ? 'bg-gray-100' : ''}`}
                     disabled={isLoading}
+                    onKeyDown={handleKeyPress}
                     rows={1}
                     style={{ maxHeight: '6rem' }}
                 />
