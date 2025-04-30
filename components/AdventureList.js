@@ -14,7 +14,8 @@ export default function AdventureList({ adventures }) {
 
     const handleRunClick = (id, e) => {
         e.stopPropagation(); // Prevent triggering the adventure expansion
-        router.push(`/run/${id}`);
+        const adventure = adventures.find(a => a.id === id);
+        router.push(adventure.started ? `/run/${id}` : `/characters?adventure_id=${id}`);
     };
 
     return (
@@ -28,8 +29,8 @@ export default function AdventureList({ adventures }) {
                         className="p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 flex justify-between items-center"
                         onClick={() => handleAdventureClick(adventure.id)}
                     >
-                        <div>
-                            <h2 className="text-xl font-semibold">{adventure.adventure.title}</h2>
+                        <div className="pr-4">
+                            <h2 className="text-xl font-semibold">{adventure.adventure.title}{" "+ adventure.adventure_characters}</h2>
                             {adventure.user_prompt && (
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                     &ldquo;{adventure.user_prompt}&rdquo;
@@ -40,7 +41,7 @@ export default function AdventureList({ adventures }) {
                             onClick={(e) => handleRunClick(adventure.id, e)}
                             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
                         >
-                            Run
+                            {adventure.started ? 'Continue' : 'Start'}
                         </button>
                     </div>
                     

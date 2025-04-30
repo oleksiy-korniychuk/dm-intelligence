@@ -10,7 +10,7 @@ export async function POST(request) {
         }
         const supabase = await createClient();
         // Initial message will eventually be dynamically generated based on the player character
-        const initialMessage = "Hello, GM! Name's Gerard and I am a level 3 fighter. I stand ready with sword and shield to protect my companions, and my wolf Fang's always by my side to watch my back. Please set the stage for this adventure and then let me know where I am and what I can see so that we can start playing";
+        const initialMessage = "Hello, GM! Lets get started. Please welcome the player(s) and then jump right into introducing the adventure setting. Finish your introduction by zoom into where the player characters find themselves and what they are seeing. Assume the players know nothing about the adventure other than whats listed in their character sheets and what you tell them going forward.";
 
         // Get the current user
         const { data: { user }, error: userError } = await supabase.auth.getUser();
@@ -26,6 +26,21 @@ export async function POST(request) {
         if (adventureError || !adventureData) {
             throw new Error("Adventure not found or you don't have access");
         }
+
+        // Get characters associated with this adventure
+        const { data: adventureCharacters, error: charactersError } = await supabase
+            .from('adventure_characters')
+            .select(`
+                character_id,
+                characters (
+                    character_sheet
+                )
+            `)
+            .eq('adventure_id', adventureId);
+
+        if (charactersError) throw charactersError;
+
+        const characters = adventureCharacters.map(ac => ac.characters.character_sheet);
 
         // Get existing chat history
         const { data: dbHistory } = await supabase
@@ -88,7 +103,8 @@ export async function POST(request) {
         const response = await gameMasterResponse(
             messageForGm.message,
             formattedHistory, 
-            adventureData.adventure
+            adventureData.adventure,
+            characters
         );
         
         // Store GM response
