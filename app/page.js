@@ -1,4 +1,4 @@
-import AdventureInput from '@/components/AdventureInput';
+import AdventureInput from '@/components/CreateAdventure';
 import Link from 'next/link';
 
 export default function Home() {

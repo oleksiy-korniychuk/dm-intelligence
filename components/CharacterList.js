@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import CreateCharacterForm from './CreateCharacterForm';
+import CreateCharacterForm from './CreateCharacter';
 
 export default function CharacterList({ characters, adventureId }) {
     const [isLoading, setIsLoading] = useState(false);
