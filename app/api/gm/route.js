@@ -46,7 +46,7 @@ export async function POST(request) {
         const { data: dbHistory } = await supabase
             .from('chat_messages')
             .select('*')
-            .eq('adventure_id', adventureId)
+            .eq('session_id', adventureId)
             .order('created_at', { ascending: true });
 
         let messageForGm;
@@ -87,7 +87,7 @@ export async function POST(request) {
                     .from('chat_messages')
                     .insert({
                         user_id: user.id,
-                        adventure_id: adventureId,
+                        session_id: adventureId,
                         role: 'user',
                         content: messageForGm
                     });
@@ -112,7 +112,7 @@ export async function POST(request) {
             .from('chat_messages')
             .insert({
                 user_id: user.id,
-                adventure_id: adventureId,
+                session_id: adventureId,
                 role: 'model',
                 content: { message: response },
                 metadata: response.usageMetadata
@@ -126,7 +126,7 @@ export async function POST(request) {
             const { data: messages } = await supabase
                 .from('chat_messages')
                 .select('*')
-                .eq('adventure_id', adventureId)
+                .eq('session_id', adventureId)
                 .gte('created_at', new Date(lastSyncedAt).toISOString())
                 .order('created_at', { ascending: true });
                 

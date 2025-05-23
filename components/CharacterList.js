@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import CreateCharacterForm from './CreateCharacter';
+import CreateCharacter from './CreateCharacter';
 
 export default function CharacterList({ characters, adventureId }) {
     const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +69,7 @@ export default function CharacterList({ characters, adventureId }) {
                 )}
             </div>
             
-            <CreateCharacterForm onCharacterCreated={handleCharacterCreated} />
+            <CreateCharacter onCharacterCreated={handleCharacterCreated} />
         </div>
     );
 }
