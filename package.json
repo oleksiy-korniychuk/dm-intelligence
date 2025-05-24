@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google/genai": "^0.10.0",
+    "@langchain/langgraph": "^0.2.73",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
     "next": "15.3.1",

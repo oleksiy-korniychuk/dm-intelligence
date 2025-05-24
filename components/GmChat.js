@@ -51,7 +51,8 @@ export default function GmChat({
         onSubmit();
     };
 
-    return (        <div className="flex flex-col h-full w-full">
+    return (
+        <div className="flex flex-col h-full w-full">
             <div className="flex-1 overflow-y-auto mb-4 p-4 bg-gray-800 rounded-lg shadow min-h-0">
                 {history.filter(entry => !entry.content?.type).map((entry, index) => (
                     <div key={index} className={"mb-3 text-left"}>
