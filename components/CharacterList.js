@@ -3,11 +3,10 @@
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import CreateCharacter from './CreateCharacter';
+import CharacterSummary from './CharacterSummary';
 
 export default function CharacterList({ characters, adventureId }) {
     const [isLoading, setIsLoading] = useState(false);
-    const [characterList, setCharacterList] = useState(characters);
     const router = useRouter();
 
     const handleSelectCharacter = async (characterId) => {
@@ -37,22 +36,18 @@ export default function CharacterList({ characters, adventureId }) {
         }
     };
 
-    const handleCharacterCreated = (newCharacter) => {
-        setCharacterList([...characterList, newCharacter]);
-    };
-
     return (
         <div className="max-w-4xl mx-auto p-6 space-y-8">
             <div>
                 <h2 className="text-xl font-semibold mb-4">Available Characters</h2>
-                {characterList.length === 0 ? (
-                    <p className="text-foreground/60">No characters available. Create one below!</p>
+                {characters.length === 0 ? (
+                    <p className="text-foreground/60">No characters available. Create a new one!</p>
                 ) : (
                     <ul className="space-y-4">
-                        {characterList.map((character) => (
+                        {characters.filter(character => character.character_sheet.complete).map((character) => (
                             <li key={character.id}>
-                                <div className="p-4 border border-foreground/10 rounded-lg bg-background">
-                                    <p className="mb-3">{character.character_sheet.description}</p>
+                                <div className="p-4 border border-foreground/10 rounded-lg bg-background flex justify-between items-center">
+                                    <CharacterSummary characterSheet={character.character_sheet} />
                                     {adventureId && (
                                         <button
                                             onClick={() => handleSelectCharacter(character.id)}
@@ -68,8 +63,6 @@ export default function CharacterList({ characters, adventureId }) {
                     </ul>
                 )}
             </div>
-            
-            <CreateCharacter onCharacterCreated={handleCharacterCreated} />
         </div>
     );
 }

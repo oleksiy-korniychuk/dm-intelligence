@@ -34,7 +34,7 @@ export async function POST(request) {
                 .upsert({
                     id: sessionId,
                     user_id: user.id,
-                    character_sheet: JSON.stringify(response.character)
+                    character_sheet: response.character
                 });
 
             if (characterError) throw characterError;

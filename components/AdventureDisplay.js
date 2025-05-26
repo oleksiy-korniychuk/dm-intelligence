@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 
-export default function AdventureDisplay({ adventure, adventureId }) {
+export default function AdventureDisplay({ adventure, adventureId, started = false }) {
   const router = useRouter();
 
   if (!adventure) return null;
@@ -93,7 +93,7 @@ export default function AdventureDisplay({ adventure, adventureId }) {
 
       <div className="mt-4 text-center">
         <button
-          onClick={() => router.push(`/run/${adventureId}`)}
+          onClick={() => started ? router.push(`/run/${adventureId}`) : router.push(`/characters?adventure_id=${adventureId}`)}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
         >
           Run Adventure

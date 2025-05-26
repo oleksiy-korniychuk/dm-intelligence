@@ -30,7 +30,7 @@ export default function AdventureList({ adventures }) {
                         onClick={() => handleAdventureClick(adventure.id)}
                     >
                         <div className="pr-4">
-                            <h2 className="text-xl font-semibold">{adventure.adventure.title}{" "+ adventure.adventure_characters}</h2>
+                            <h2 className="text-xl font-semibold">{adventure.adventure.title}</h2>
                             {adventure.user_prompt && (
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                     &ldquo;{adventure.user_prompt}&rdquo;
@@ -47,7 +47,7 @@ export default function AdventureList({ adventures }) {
                     
                     {expandedId === adventure.id && (
                         <div className="border-t border-gray-200 dark:border-gray-700 p-4">
-                            <AdventureDisplay adventure={adventure.adventure} adventureId={adventure.id} />
+                            <AdventureDisplay adventure={adventure.adventure} adventureId={adventure.id} started={adventure.started} />
                         </div>
                     )}
                 </div>
