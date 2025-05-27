@@ -1,8 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { processPlayerMessage } from '@/lib/workflows/createCharacterWorkflow';
 
-export const runtime = 'edge'
-
 export async function POST(request) {
     try {
         const supabase = await createClient();

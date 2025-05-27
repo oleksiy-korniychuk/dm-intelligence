@@ -13,6 +13,7 @@
     "@langchain/langgraph": "^0.2.73",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
+    "@tavily/core": "^0.5.3",
     "next": "15.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
