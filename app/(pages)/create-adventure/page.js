@@ -1,7 +1,7 @@
 import AdventureInput from '@/components/CreateAdventure';
 import Link from 'next/link';
 
-export default function Home() {
+export default function CreateAdventure() {
   return (
     <div>
       <AdventureInput />
