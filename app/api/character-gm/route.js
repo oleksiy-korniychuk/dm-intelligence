@@ -23,7 +23,7 @@ export async function POST(request) {
 
         const character = characterData ? JSON.parse(characterData.character_sheet) : {};
 
-        const response = await processPlayerMessage(sessionId, messages, character);
+        const response = await processPlayerMessage(sessionId, messages, character, user.id);
 
         // Save the character sheet if it was updated
         if (response.character) {
