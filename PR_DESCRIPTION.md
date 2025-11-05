@@ -43,9 +43,9 @@ This PR successfully migrates all LLM interactions from direct Gemini API calls 
 ### Dependencies
 ```json
 {
-  "added": ["openai", "@langchain/core"],
-  "removed": [],
-  "kept": ["@google/genai"]  // For reference/rollback
+  "added": ["openai@6.8.0", "@langchain/core@1.0.2", "@langchain/langgraph@1.0.1 (upgraded)"],
+  "removed": ["@google/genai"],
+  "note": "All dependencies now use latest compatible versions"
 }
 ```
 
@@ -98,8 +98,12 @@ Client → API Route → LLM Service → OpenRouter API → Multiple Providers
 - `package.json` - Added openai dependency
 - `package-lock.json` - Updated lock file
 
-### Kept for Reference
-- `lib/gemini/*` - Original Gemini services (for rollback if needed)
+### Removed
+- `@google/genai` package - No longer needed after complete migration
+- `.npmrc` - Not needed with latest compatible dependency versions
+
+### Note on Rollback
+The old `lib/gemini/*` service files still exist in git history and can be restored if needed, along with reinstalling `@google/genai@0.10.0`.
 
 ## 🔐 Security Considerations
 
@@ -213,10 +217,12 @@ OPENROUTER_DEFAULT_MODEL=anthropic/claude-3.5-sonnet
 
 If issues arise:
 
-1. **Quick**: Keep `GEMINI_API_KEY` in environment variables
-2. **Revert**: The old `lib/gemini/` services still exist
-3. **Database**: The new table doesn't affect existing functionality
-4. **Gradual**: Can revert individual services one at a time
+1. **Code Revert**: The old `lib/gemini/` service files exist in git history
+2. **Reinstall Gemini**: Run `npm install @google/genai@0.10.0` to restore the package
+3. **Restore Imports**: Update API route imports back to `lib/gemini/` services
+4. **Environment**: Add back `GEMINI_API_KEY` environment variable
+5. **Database**: The new `user_api_keys` table doesn't affect existing functionality
+6. **Gradual**: Can revert individual services one at a time if needed
 
 ## 📚 Documentation
 

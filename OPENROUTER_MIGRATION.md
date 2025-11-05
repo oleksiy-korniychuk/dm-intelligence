@@ -84,7 +84,9 @@ This creates:
 npm install
 ```
 
-This installs the `openai` SDK and required LangChain dependencies.
+This installs the `openai` SDK and required LangChain dependencies (latest versions).
+
+**Note**: The `@google/genai` package has been completely removed as part of this migration since all functionality now uses OpenRouter.
 
 ## API Key Management
 
