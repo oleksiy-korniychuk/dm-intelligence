@@ -79,11 +79,14 @@ Client → API Route → LLM Service → OpenRouter API → Multiple Providers
 
 ## 📝 Files Changed
 
-### New Files (8)
+### New Files (11)
 - `lib/llm/client.js`
 - `lib/llm/gmAgentService.js`
 - `lib/llm/adventureService.js`
 - `lib/llm/createCharacterService.js`
+- `lib/schemas/adventureSchema.js` (moved from lib/gemini/schemas/)
+- `lib/schemas/characterSheetSchema.js` (moved from lib/gemini/schemas/)
+- `lib/schemas/characterChatSchema.js` (moved from lib/gemini/schemas/)
 - `app/api/user/api-key/route.js`
 - `supabase/migrations/001_user_api_keys.sql`
 - `OPENROUTER_MIGRATION.md`
@@ -101,9 +104,14 @@ Client → API Route → LLM Service → OpenRouter API → Multiple Providers
 ### Removed
 - `@google/genai` package - No longer needed after complete migration
 - `.npmrc` - Not needed with latest compatible dependency versions
+- `lib/gemini/*` - All old Gemini service files and schemas removed (moved to `lib/schemas/*`)
+- `GEMINI_API_KEY` references - Removed from .env.example
+
+### Schemas Relocated
+- `lib/gemini/schemas/*` → `lib/schemas/*` - Moved to provider-agnostic location
 
 ### Note on Rollback
-The old `lib/gemini/*` service files still exist in git history and can be restored if needed, along with reinstalling `@google/genai@0.10.0`.
+All old code exists in git history and can be restored if needed by reverting commits and reinstalling `@google/genai@0.10.0`.
 
 ## 🔐 Security Considerations
 
@@ -215,14 +223,14 @@ OPENROUTER_DEFAULT_MODEL=anthropic/claude-3.5-sonnet
 
 ## 🔄 Rollback Plan
 
-If issues arise:
+If issues arise, all old code exists in git history. To rollback:
 
-1. **Code Revert**: The old `lib/gemini/` service files exist in git history
+1. **Revert Commits**: `git revert` the migration commits to restore old code
 2. **Reinstall Gemini**: Run `npm install @google/genai@0.10.0` to restore the package
-3. **Restore Imports**: Update API route imports back to `lib/gemini/` services
-4. **Environment**: Add back `GEMINI_API_KEY` environment variable
-5. **Database**: The new `user_api_keys` table doesn't affect existing functionality
-6. **Gradual**: Can revert individual services one at a time if needed
+3. **Environment**: Add back `GEMINI_API_KEY` environment variable
+4. **Database**: The new `user_api_keys` table doesn't affect existing functionality and can remain
+
+**Note**: Since old Gemini code has been removed from the branch, rollback requires reverting git commits rather than just changing imports.
 
 ## 📚 Documentation
 

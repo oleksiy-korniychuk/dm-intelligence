@@ -196,13 +196,13 @@ supabase/migrations/
 
 ### Migration Map
 
-| Old File | New File | Status |
+| Old File (Removed) | New File | Status |
 |----------|----------|--------|
-| `lib/gemini/gmAgentService.js` | `lib/llm/gmAgentService.js` | ✅ Migrated |
-| `lib/gemini/adventureService.js` | `lib/llm/adventureService.js` | ✅ Migrated |
-| `lib/gemini/createCharacterService.js` | `lib/llm/createCharacterService.js` | ✅ Migrated |
-| `lib/gemini/schemas/*` | `lib/gemini/schemas/*` | ✅ Reused (converted at runtime) |
-| `lib/gemini/tools.js` | `lib/gemini/tools.js` | ✅ Converted in createCharacterService |
+| `lib/gemini/gmAgentService.js` | `lib/llm/gmAgentService.js` | ✅ Migrated & old code removed |
+| `lib/gemini/adventureService.js` | `lib/llm/adventureService.js` | ✅ Migrated & old code removed |
+| `lib/gemini/createCharacterService.js` | `lib/llm/createCharacterService.js` | ✅ Migrated & old code removed |
+| `lib/gemini/schemas/*` | `lib/schemas/*` | ✅ Moved to provider-agnostic location |
+| `lib/gemini/tools.js` | `lib/llm/createCharacterService.js` | ✅ Converted inline & old code removed |
 
 ### API Compatibility
 
