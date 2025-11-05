@@ -151,7 +151,7 @@ The old `lib/gemini/*` service files still exist in git history and can be resto
 ```bash
 # Add to .env.local
 OPENROUTER_API_KEY=sk-or-v1-...
-OPENROUTER_DEFAULT_MODEL=google/gemini-2.0-flash-exp
+OPENROUTER_DEFAULT_MODEL=google/gemini-2.5-flash
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
@@ -179,7 +179,7 @@ npm install
 
 ## 🎨 Model Options
 
-The default model is `google/gemini-2.0-flash-exp` (same family as before), but you can now easily switch to:
+The default model is `google/gemini-2.5-flash` (same family as before), but you can now easily switch to:
 
 - **Google**: `google/gemini-pro-1.5`, `google/gemini-2.0-flash-thinking-exp-1219`
 - **OpenAI**: `openai/gpt-4o`, `openai/gpt-4-turbo`, `openai/gpt-3.5-turbo`

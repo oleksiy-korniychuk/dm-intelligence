@@ -37,8 +37,8 @@ Update your `.env.local` file with the following:
 # Required: OpenRouter API Key (admin/default key)
 OPENROUTER_API_KEY=sk-or-v1-...
 
-# Optional: Default model to use (defaults to google/gemini-2.0-flash-exp)
-OPENROUTER_DEFAULT_MODEL=google/gemini-2.0-flash-exp
+# Optional: Default model to use (defaults to google/gemini-2.5-flash)
+OPENROUTER_DEFAULT_MODEL=google/gemini-2.5-flash
 
 # Optional: Application URL for OpenRouter attribution
 NEXT_PUBLIC_APP_URL=http://localhost:3000
@@ -142,7 +142,7 @@ DELETE /api/user/api-key
 OpenRouter supports 400+ models. Popular choices include:
 
 **Google Models:**
-- `google/gemini-2.0-flash-exp` (current default)
+- `google/gemini-2.5-flash` (current default)
 - `google/gemini-2.0-flash-thinking-exp-1219`
 - `google/gemini-pro-1.5`
 
@@ -172,7 +172,7 @@ Or programmatically in `lib/llm/client.js`:
 
 ```javascript
 export function getDefaultModel() {
-    return process.env.OPENROUTER_DEFAULT_MODEL || "google/gemini-2.0-flash-exp";
+    return process.env.OPENROUTER_DEFAULT_MODEL || "google/gemini-2.5-flash";
 }
 ```
 
@@ -288,7 +288,7 @@ OpenRouter charges based on tokens used. Pricing varies by model:
 
 ### Tips
 
-1. **Use Cheaper Models for Testing**: Switch to `google/gemini-2.0-flash-exp` during development
+1. **Use Cheaper Models for Testing**: Switch to `google/gemini-2.5-flash` during development
 2. **Monitor Usage**: Check OpenRouter dashboard for usage statistics
 3. **Set Budgets**: Configure spending limits in OpenRouter account settings
 4. **Enable BYOK**: Let users pay for their own usage with their API keys
