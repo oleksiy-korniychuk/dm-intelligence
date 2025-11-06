@@ -1,5 +1,6 @@
 -- Migration: Add user_api_keys table for storing user OpenRouter API keys
 -- This table allows users to bring their own API keys (BYOK)
+-- TODO: Clean up this file
 
 -- Create the user_api_keys table
 CREATE TABLE IF NOT EXISTS user_api_keys (
