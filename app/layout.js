@@ -17,6 +17,10 @@ export const metadata = {
   title: "DM Intelligence",
   description: "A web app posing as a mediocre TTRPG Game Master with some short term memory loss",
   manifest: '/manifest.json',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#0a0a0a' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' }
+  ],
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
