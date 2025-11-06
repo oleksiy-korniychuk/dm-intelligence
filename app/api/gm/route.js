@@ -1,4 +1,4 @@
-import { gameMasterResponse } from '@/lib/gemini/gmAgentService';
+import { gameMasterResponse } from '@/lib/llm/gmAgentService';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
@@ -102,9 +102,10 @@ export async function POST(request) {
         
         const response = await gameMasterResponse(
             messageForGm.message,
-            formattedHistory, 
+            formattedHistory,
             adventureData.adventure,
-            characters
+            characters,
+            user.id  // Pass user ID for API key lookup
         );
         
         // Store GM response

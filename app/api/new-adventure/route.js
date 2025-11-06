@@ -1,4 +1,4 @@
-import { generateAdventure } from '@/lib/gemini/adventureService';
+import { generateAdventure } from '@/lib/llm/adventureService';
 import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request) {
@@ -11,10 +11,10 @@ export async function POST(request) {
             });
         }
 
-        const response = await generateAdventure(prompt);
-
         const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
+
+        const response = await generateAdventure(prompt, user.id);
         
         // Store the adventure in the database
         const { data: insertedAdventure, error: insertError } = await supabase
