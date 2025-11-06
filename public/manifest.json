@@ -1,8 +1,9 @@
 {
   "name": "DM Intelligence",
-  "short_name": "DM Intel",
+  "short_name": "DMI",
   "description": "A web app posing as a mediocre TTRPG Game Master with some short term memory loss",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",

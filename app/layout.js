@@ -20,7 +20,7 @@ export const metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'DM Intel',
+    title: 'DMI',
   },
 };
 
