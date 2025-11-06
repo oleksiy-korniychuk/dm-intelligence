@@ -26,7 +26,7 @@ export default function Header() {
                     {!isHomePage && (
                         <button
                             onClick={() => router.back()}
-                            className="mr-4 px-2 py-1 text-sm bg-foreground/10 hover:bg-foreground/20 rounded-md transition-colors"
+                            className="mr-4 px-3 py-2 text-sm min-h-[44px] bg-foreground/10 hover:bg-foreground/20 rounded-md transition-colors"
                         >
                             Back
                         </button>
@@ -37,7 +37,7 @@ export default function Header() {
                 </div>
                 <button
                     onClick={handleSignOut}
-                    className="px-4 py-2 text-sm bg-foreground/10 hover:bg-foreground/20 rounded-md transition-colors"
+                    className="px-4 py-2 text-sm min-h-[44px] bg-foreground/10 hover:bg-foreground/20 rounded-md transition-colors"
                 >
                     Sign Out
                 </button>

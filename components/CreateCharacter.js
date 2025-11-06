@@ -55,7 +55,7 @@ export default function CreateCharacter({ sessionId, adventureId = null }) {
     };
 
     return (
-        <div className="flex flex-col h-[calc(100vh-8rem)] max-w-7xl mx-auto px-4">
+        <div className="flex flex-col min-h-screen lg:h-[calc(100vh-8rem)] max-w-7xl mx-auto px-4">
             <div className="flex justify-between items-center mb-4 pt-4">
                 <div className="flex-1"></div>
                 <h2 className="text-2xl font-bold text-center">Create New Character</h2>
